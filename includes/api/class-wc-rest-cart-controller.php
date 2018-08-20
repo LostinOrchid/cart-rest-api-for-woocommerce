@@ -212,15 +212,19 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Clear cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @return WP_ERROR|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.5
+	 * @return  array|WP_ERROR
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
 
 		if ( WC()->cart->is_empty() ) {
-			return new WP_REST_Response( __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ), 200 );
+			return array(
+				'wc_cart_rest_clear_cart_successful' => __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ),
+				'status' => 200
+			);
 		} else {
 			return new WP_Error( 'wc_cart_rest_clear_cart_failed', __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
